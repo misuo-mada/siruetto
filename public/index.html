@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>シルエット画像ビューア</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    select, option {
+      font-size: 16px;
+      padding: 8px;
+      margin: 10px;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 80%;
+      height: auto;
+      border: 2px solid #fff;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <h1>マダミスシルエット生成アプリ</h1>
+
+  <label for="category">カテゴリを選択：</label>
+  <select id="category" onchange="updateSuboptions()">
+    <option value="">-- 選択 --</option>
+    <option value="person">人物</option>
+    <option value="tool">道具</option>
+  </select>
+
+  <label for="item">項目を選択：</label>
+  <select id="item" onchange="showImage()">
+    <option value="">-- 項目 --</option>
+  </select>
+
+  <div>
+    <img id="image" src="" alt="画像がここに表示されます" />
+  </div>
+
+  <script>
+    const imageData = {
+      person: {
+        "男性": "man.png",
+        "女性": "woman.png",
+        "女子高生": "jk.png",
+        "男子小学生": "boy.png",
+        "女子小学生": "girl.png",
+        "おじさん": "middleman.png"
+      },
+      tool: {
+        "ナイフ": "knife.png",
+        "ロープ": "rope.png",
+      }
+    };
+
+    function updateSuboptions() {
+      const category = document.getElementById("category").value;
+      const itemSelect = document.getElementById("item");
+      itemSelect.innerHTML = '<option value="">-- 項目 --</option>';
+
+      if (imageData[category]) {
+        for (const key in imageData[category]) {
+          const option = document.createElement("option");
+          option.value = key;
+          option.textContent = key;
+          itemSelect.appendChild(option);
+        }
+      }
+      document.getElementById("image").src = "";
+    }
+
+    function showImage() {
+      const category = document.getElementById("category").value;
+      const item = document.getElementById("item").value;
+      if (imageData[category] && imageData[category][item]) {
+        document.getElementById("image").src = "./images/" + imageData[category][item];
+      } else {
+        document.getElementById("image").src = "";
+      }
+    }
+  </script>
+</body>
+</html>
